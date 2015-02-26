@@ -30,7 +30,7 @@ class ShibbolethRemoteUserMiddleware(RemoteUserMiddleware):
             return
         else:
             #Delete the shib reauth session key if present.
-	        request.session.pop(LOGOUT_SESSION_KEY, None)
+            request.session.pop(LOGOUT_SESSION_KEY, None)
 
         #Locate the remote user header.
         try:
@@ -65,10 +65,6 @@ class ShibbolethRemoteUserMiddleware(RemoteUserMiddleware):
             auth.login(request, user)
             user.set_unusable_password()
             user.save()
-            # call make profile.
-            self.make_profile(user, shib_meta)
-            #setup session.
-            self.setup_session(request)
             self.shib_login = True
 
     def process_response(self, request, response):
@@ -100,21 +96,6 @@ class ShibbolethRemoteUserMiddleware(RemoteUserMiddleware):
         else:
             return
         response.set_cookie('seahub_auth', request.user.username + '@' + token.key)
-
-    def make_profile(self, user, shib_meta):
-        """
-        This is here as a stub to allow subclassing of ShibbolethRemoteUserMiddleware
-        to include a make_profile method that will create a Django user profile
-        from the Shib provided attributes.  By default it does nothing.
-        """
-        return
-
-    def setup_session(self, request):
-        """
-        If you want to add custom code to setup user sessions, you
-        can extend this.
-        """
-        return
 
     def parse_attributes(self, request):
         """
