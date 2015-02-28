@@ -3349,6 +3349,11 @@ textarea:-moz-placeholder {/* for FF */
 }
 
 /* repo setting */
+.user-perm-add-tr input,
+.group-perm-add-tr input {
+    padding:2px 5px;
+}
+
 .user-perm-add-perm,
 .group-perm-add-perm,
 .perm-toggle-select,

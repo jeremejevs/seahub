@@ -54,9 +54,9 @@
                     <th width="10%"></th>
                 </tr>
                 <tr class="user-perm-add-tr hide">
-                    <td><input id="perm-add-user" placeholder=" {% trans "Email"%}"></input></td>
+                    <td><input id="perm-add-user" placeholder="{% trans "Email"%}"></input></td>
                     <td>
-                        <input class="user-perm-add-folder-name" placeholder=" {% trans "Select a folder"%}"></input><img src="{{ MEDIA_URL }}img/add.png" alt="" title="Select Folder" class="perm-add-select-folder add vam" />
+                        <input class="user-perm-add-folder-name" placeholder="{% trans "Select a folder"%}"></input><img src="{{ MEDIA_URL }}img/add.png" alt="" title="Select Folder" class="perm-add-select-folder add vam" />
                         <input class="user-perm-add-folder-path" type="hidden"></input>
                     </td>
                     <td>
@@ -107,11 +107,11 @@
                 </tr>
                 <tr class="group-perm-add-tr hide">
                     <td>
-                        <input id="perm-add-grp-name" placeholder=" {% trans "Group"%}"></input>
+                        <input id="perm-add-grp-name" placeholder="{% trans "Group"%}"></input>
                         <input id="perm-add-grp-id" type="hidden"></input>
                     </td>
                     <td>
-                        <input class="group-perm-add-folder-name" placeholder=" {% trans "Select a folder"%}"></input><img src="{{ MEDIA_URL }}img/add.png" alt="" title="Select Folder" class="perm-add-select-folder add vam" />
+                        <input class="group-perm-add-folder-name" placeholder="{% trans "Select a folder"%}"></input><img src="{{ MEDIA_URL }}img/add.png" alt="" title="Select Folder" class="perm-add-select-folder add vam" />
                         <input class="group-perm-add-folder-path" type="hidden"></input>
                     </td>
                     <td>
@@ -330,7 +330,7 @@ function selectClickHandler(event) {
     }
     if (path_array.length == 1) {
         path = path_array.shift();
-        folder_name.val('Root Directory');
+        folder_name.val('/');
     } else {
         var root = path_array.shift(),
             path = root + path_array.join('/'),
