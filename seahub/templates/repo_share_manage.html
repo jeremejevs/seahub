@@ -74,7 +74,7 @@
                         </select>
                     </td>
                     <td>
-                        <a href="{% url 'repo_remove_share' %}?repo_id={{ share.repo_id }}&from={{ request.user.username|urlencode }}&to={{ share.user|urlencode }}" class="cancel-share op-icon vh" title="{% trans "Unshare"%}"><img src="{{MEDIA_URL}}img/rm.png" alt="" /></a>
+                        <a href="{% url 'repo_remove_share' %}?repo_id={{ share.repo_id }}&from={{ request.user.username|urlencode }}&to={{ share.user|urlencode }}&permission={{ share.permission }}" class="cancel-share op-icon vh" title="{% trans "Unshare"%}"><img src="{{MEDIA_URL}}img/rm.png" alt="" /></a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -107,7 +107,7 @@
                         </select>
                     </td>
                     <td>
-                        <a href="{% url 'repo_remove_share' %}?repo_id={{ share.repo_id }}&from={{ request.user.username|urlencode }}&gid={{ share.group_id }}" class="cancel-share op-icon vh" title="{% trans "Unshare"%}"><img src="{{MEDIA_URL}}img/rm.png" alt="" /></a>
+                        <a href="{% url 'repo_remove_share' %}?repo_id={{ share.repo_id }}&from={{ request.user.username|urlencode }}&gid={{ share.group_id }}&permission={{ share.permission }}" class="cancel-share op-icon vh" title="{% trans "Unshare"%}"><img src="{{MEDIA_URL}}img/rm.png" alt="" /></a>
                     </td>
                 </tr>
                 {% endfor %}
