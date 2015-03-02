@@ -1866,6 +1866,13 @@ textarea:-moz-placeholder {/* for FF */
     width:500px;
     padding:10px 20px;
 }
+.perm-dir-tree-cont {
+    padding:5px;
+    height:100px;
+    overflow:auto;
+    border:1px solid #eee;
+    margin:5px 0 10px;
+}
 .file-tree-cont, .dir-tree-cont {
     padding:5px;
     height:280px;
