@@ -32,5 +32,5 @@ urlpatterns = patterns('',
 
     # url('^remove/(?P<token>[^/]{24,24})/$', remove_anonymous_share, name='remove_anonymous_share'),
     # url('^(?P<token>[^/]{24})/$', anonymous_share_confirm, name='anonymous_share_confirm'),
-                       
+    url(r'^ajax/remove-shared-repo/$', ajax_remove_shared_repo, name='ajax_remove_shared_repo'),
 )

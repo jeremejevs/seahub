@@ -270,6 +270,67 @@ def share_repo(request):
 
     return HttpResponseRedirect(next)
 
+@login_required_ajax
+def ajax_remove_shared_repo(request):
+    """
+    If repo is shared from one person to another person, only these two peson
+    can remove share.
+    If repo is shared from one person to a group, then only the one share the
+    repo and group staff can remove share.
+    """
+    repo_id = request.GET.get('repo_id', '')
+    group_id = request.GET.get('gid', '')
+    from_email = request.GET.get('from', '')
+    content_type = 'application/json; charset=utf-8'
+
+    if not is_valid_username(from_email):
+        return HttpResponse(json.dumps({'error': _(u'Argument is not valid')}), status=400,
+                            content_type=content_type)
+    username = request.user.username
+
+    # if request params don't have 'gid', then remove repos that share to
+    # to other person; else, remove repos that share to groups
+    if not group_id:
+        to_email = request.GET.get('to', '')
+        if not is_valid_username(to_email):
+            return HttpResponse(json.dumps({'error': _(u'Argument is not valid')}), status=400,
+                                content_type=content_type)
+
+        if username != from_email and username != to_email:
+            return HttpResponse(json.dumps({'error': _(u'Failed to remove share')}), status=403,
+                                content_type=content_type)
+
+        if is_org_context(request):
+            org_id = request.user.org.org_id
+            org_remove_share(org_id, repo_id, from_email, to_email)
+        else:
+            seaserv.remove_share(repo_id, from_email, to_email)
+    else:
+        try:
+            group_id = int(group_id)
+        except:
+            return HttpResponse(json.dumps({'error': _(u'Argument is not valid')}), status=400,
+                                content_type=content_type)
+
+        group = seaserv.get_group(group_id)
+        if not group:
+            return HttpResponse(json.dumps({'error': _(u"Failed to unshare: the group doesn't exist.")}), status=400,
+                                content_type=content_type)
+
+        if not seaserv.check_group_staff(group_id, username) \
+                and username != from_email:
+            return HttpResponse(json.dumps({'error': _(u'Failed to remove share')}), status=403,
+                                content_type=content_type)
+
+        if is_org_group(group_id):
+            org_id = get_org_id_by_group(group_id)
+            del_org_group_repo(repo_id, org_id, group_id)
+        else:
+            seafile_api.unset_group_repo(repo_id, group_id, from_email)
+
+    return HttpResponse(json.dumps({'success': True}),
+                        content_type=content_type)
+
 @login_required
 def repo_remove_share(request):
     """

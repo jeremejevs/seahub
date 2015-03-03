@@ -75,6 +75,8 @@ define([
               case 'cancel_cp': return siteRoot + 'ajax/cancel_cp/';
               case 'get_shared_link': return '';
               case 'get_shared_upload_link': return '';
+
+              case 'ajax_remove_shared_repo': return siteRoot + 'share/ajax/remove-shared-repo/';
             }
         },
 
@@ -214,6 +216,36 @@ define([
                     this.feedback(err);
                     this.enableButton(submit_btn);
                 }
+            });
+        },
+
+        ajaxGet: function(params) {
+            var _this = this,
+                get_url = params.get_url,
+                data = params.data,
+                after_op_error,
+                after_op_success = params.after_op_success;
+
+            if (params.hasOwnProperty('after_op_error')) {
+                after_op_error = params.after_op_error;
+            } else {
+                after_op_error = function(xhr, textStatus, errorThrown) {
+                    var err;
+                    if (xhr.responseText) {
+                        err = $.parseJSON(xhr.responseText).error;
+                    } else {
+                        err = getText("Failed. Please check the network.");
+                    }
+                    _this.feedback(err, 'error', _this.ERROR_TIMEOUT);
+                }
+            };
+            $.ajax({
+                url: get_url,
+                cache: false,
+                dataType: 'json',
+                data: data,
+                success: function(data) {after_op_success(data);},
+                error: after_op_error
             });
         },
 
