@@ -413,8 +413,8 @@ define([
                     user_perm: this.user_perm,
                     repo_id: this.repo_id,
                     //TODO
-                    cloud_mode: false,
-                    org: false
+                    cloud_mode: app.pageOptions.cloud_mode,//false,
+                    org: app.pageOptions.org//false
                 }));
 
             this.$el.modal();
